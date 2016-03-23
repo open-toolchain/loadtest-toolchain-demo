@@ -38,6 +38,7 @@ stages:
       # Push app
       export CF_APP_NAME="dev-$CF_APP"
       cf push "${CF_APP_NAME}"
+      cf stop "${CF_APP_NAME}" ### FOR LOAD TEST USERS (limited quotas)
       # View logs
       #cf logs "${CF_APP_NAME}" --recent
 - name: QA
@@ -89,6 +90,7 @@ stages:
       else
           grunt test_real
       fi
+      cf stop "${CF_APP_NAME}" ### FOR LOAD TEST USERS (limited quotas)
     enable_tests: true
     test_file_pattern: '*.xml'
 - name: PROD
@@ -120,6 +122,7 @@ stages:
       cf push "${CF_APP_NAME}"
       # Start the load
       export APP_URL=http://$(cf app $CF_APP_NAME | grep urls: | awk '{print $2}')
-      curl "${APP_URL}/autoLoadTest.php?count=100&delay=0&action=start"
+      ###curl "${APP_URL}/autoLoadTest.php?count=100&delay=0&action=start"
       # View logs
       #cf logs "${CF_APP_NAME}" --recent
+      cf stop "${CF_APP_NAME}" ### FOR LOAD TEST USERS (limited quotas)
