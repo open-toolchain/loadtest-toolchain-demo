@@ -40,6 +40,7 @@ stages:
       # Push app
       export CF_APP_NAME="dev-$CF_APP"
       cf push "${CF_APP_NAME}"
+      cf stop "${CF_APP_NAME}" ### FOR LOAD TEST USERS (limited quotas)
       # View logs
       #cf logs "${CF_APP_NAME}" --recent
 - name: QA
@@ -92,6 +93,7 @@ stages:
       else
           grunt test_real
       fi
+      cf stop "${CF_APP_NAME}" ### FOR LOAD TEST USERS (limited quotas)
     enable_tests: true
     test_file_pattern: '*.xml'
 - name: PROD
@@ -122,5 +124,6 @@ stages:
       # Push app
       export CF_APP_NAME="$CF_APP"
       cf push "${CF_APP_NAME}"
+      cf stop "${CF_APP_NAME}" ### FOR LOAD TEST USERS (limited quotas)
       # View logs
       #cf logs "${CF_APP_NAME}" --recent
