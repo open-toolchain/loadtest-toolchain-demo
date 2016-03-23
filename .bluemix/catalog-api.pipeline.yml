@@ -55,6 +55,7 @@ stages:
       export CATALOG_API_TEST_SERVER=$APP_URL
       npm install
       grunt dev-fvt --no-color -f
+      cf stop "${CF_APP_NAME}" ### FOR LOAD TEST USERS (limited quotas)
 - name: TEST
   inputs:
   - type: job
@@ -105,6 +106,7 @@ stages:
       else
           grunt test_real
       fi
+      cf stop "${CF_APP_NAME}" ### FOR LOAD TEST USERS (limited quotas)
     enable_tests: true
     test_file_pattern: '*.xml'
 - name: PROD
@@ -174,3 +176,4 @@ stages:
       source ${EXT_DIR}/git_util.sh
       git_retry clone https://github.com/Osthanes/update_service.git activedeploy
       activedeploy/activedeploy_step_2.sh
+      cf stop "${CF_APP_NAME}" ### FOR LOAD TEST USERS (limited quotas)
