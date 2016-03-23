@@ -50,17 +50,11 @@ stages:
       #cf logs "${CF_APP_NAME}" --recent
   - name: Functional Tests
     type: tester
-    extension_id: ibm.devops.services.pipeline.dra_mocha_fvt
-    MINIMUM_SUCCESS_RATE: '100'
-    TEST_LOG_FILE: tests/fvt/mochafvttest.json
-    ADVISORY_MODE: 'false'
-    CHECK_TEST_REGRESSION: 'true'
-    COMMAND: |-
+    script: |-
       #!/bin/bash
       export CATALOG_API_TEST_SERVER=$APP_URL
       npm install
       grunt dev-fvt --no-color -f
-    TEST_TOOL_SELECT: mocha
 - name: TEST
   inputs:
   - type: job
