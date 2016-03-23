@@ -95,7 +95,7 @@ stages:
       fi
     enable_tests: true
     test_file_pattern: '*.xml'
-  - name: Deploy to QA
+  - name: Stop App
     type: deployer
     target:
       region_id: ${QA_REGION_ID}
