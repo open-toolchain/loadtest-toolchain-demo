@@ -93,9 +93,18 @@ stages:
       else
           grunt test_real
       fi
-      cf stop "${CF_APP_NAME}" ### FOR LOAD TEST USERS (limited quotas)
     enable_tests: true
     test_file_pattern: '*.xml'
+  - name: Deploy to QA
+    type: deployer
+    target:
+      region_id: ${QA_REGION_ID}
+      organization: ${QA_ORG_NAME}
+      space: ${QA_SPACE_NAME}
+      application: ${CF_APP_NAME}
+    script: |-
+      #!/bin/bash
+      cf stop "${CF_APP_NAME}" ### FOR LOAD TEST USERS (limited quotas)
 - name: PROD
   inputs:
   - type: job
