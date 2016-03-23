@@ -32,15 +32,6 @@ stages:
     value: undefined
     type: text
   jobs:
-  - name: Pre Deploy Check
-    type: tester
-    extension_id: ibm.devops.services.pipeline.dra_predeploygate_extn
-    ENABLE_COMPARE_APPS: 'false'
-    DRA_MODE: 'false'
-    APP_DESTINATION_MANIFEST: manifest.yml
-    APP_DESTINATION: Dev
-    APP_NOTDESTINATION: Test
-    COMMAND: '#!/bin/bash'
   - name: Deploy to Dev
     type: deployer
     target:
@@ -85,15 +76,6 @@ stages:
     value: undefined
     type: text
   jobs:
-  - name: Pre Deploy Check
-    type: tester
-    extension_id: ibm.devops.services.pipeline.dra_predeploygate_extn
-    ENABLE_COMPARE_APPS: 'true'
-    DRA_MODE: 'false'
-    APP_DESTINATION_MANIFEST: manifest.yml
-    APP_DESTINATION: Test
-    APP_NOTDESTINATION: Dev
-    COMMAND: '#!/bin/bash'
   - name: Deploy to Test
     type: deployer
     target:
@@ -158,15 +140,6 @@ stages:
     value: ''
     type: text
   jobs:
-  - name: Pre Deploy Check
-    type: tester
-    extension_id: ibm.devops.services.pipeline.dra_predeploygate_extn
-    ENABLE_COMPARE_APPS: 'true'
-    DRA_MODE: 'false'
-    APP_DESTINATION_MANIFEST: manifest.yml
-    APP_DESTINATION: Prod
-    APP_NOTDESTINATION: Test
-    COMMAND: '#!/bin/bash'
   - name: Passive Deploy
     type: deployer
     target:
