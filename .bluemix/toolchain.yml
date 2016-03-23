@@ -101,9 +101,9 @@ orders-api-build:
       PROD_REGION_ID: "{{deploy.parameters.prod-region}}"
   hidden: [form, description]
 
-#Timeline Analytics
-events:
-  service_id: timeline
+# Timeline Analytics
+# events:
+#   service_id: timeline
 
 #Slack
 messaging:
