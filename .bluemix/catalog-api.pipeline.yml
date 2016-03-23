@@ -53,6 +53,7 @@ stages:
     script: |-
       #!/bin/bash
       export CATALOG_API_TEST_SERVER=$APP_URL
+      npm install -g npm@3.7.2 ### work around efault npm 2.1.1 instability
       npm install
       grunt dev-fvt --no-color -f
   - name: Stop App
