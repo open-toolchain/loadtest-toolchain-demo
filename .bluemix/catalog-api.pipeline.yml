@@ -15,6 +15,7 @@ stages:
     type: tester
     script: |-
       #!/bin/bash
+      npm install -g npm@3.7.2 ### work around default npm 2.1.1 instability
       npm install
       grunt dev-test-cov --no-color -f    
 - name: DEV
@@ -53,7 +54,7 @@ stages:
     script: |-
       #!/bin/bash
       export CATALOG_API_TEST_SERVER=$APP_URL
-      npm install -g npm@3.7.2 ### work around efault npm 2.1.1 instability
+      npm install -g npm@3.7.2 ### work around default npm 2.1.1 instability
       npm install
       grunt dev-fvt --no-color -f
   - name: Stop App
@@ -112,9 +113,9 @@ stages:
       npm install
       echo $APP_URL | grep "stage1"
       if [ $? -eq 0 ]; then
-          grunt test_fake
+          # grunt test_fake
       else
-          grunt test_real
+          # grunt test_real
       fi
     enable_tests: true
     test_file_pattern: '*.xml'
