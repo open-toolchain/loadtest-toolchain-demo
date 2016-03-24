@@ -85,11 +85,11 @@ stages:
       #!/bin/bash
       npm install
       echo $APP_URL | grep "stage1"
-      if [ $? -eq 0 ]; then
-          # grunt test_fake
-      else
-          # grunt test_real
-      fi
+      # if [ $? -eq 0 ]; then
+      #    grunt test_fake
+      # else
+      #    grunt test_real
+      # fi
     enable_tests: true
     test_file_pattern: '*.xml'
   - name: Stop App
