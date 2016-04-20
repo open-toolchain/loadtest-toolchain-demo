@@ -139,23 +139,8 @@ stages:
   - name: CF_APP_NAME
     value: undefined
     type: text
-  - name: APP_URL
-    value: undefined
-    type: text
-  - name: AD_ENDPOINT
-    value: http://cap-sg-prd-1.integration.ibmcloud.com:15749
-    type: text
-  - name: GROUP_SIZE
-    value: '2'
-    type: text
-  - name: TARGET_PLATFORM
-    value: CloudFoundry
-    type: text
-  - name: TEST_RESULT_FOR_AD
-    value: ''
-    type: text
   jobs:
-  - name: Passive Deploy
+  - name: Temporary Deploy (to be replaced)
     type: deployer
     target:
       region_id: ${PROD_REGION_ID}
@@ -164,35 +149,32 @@ stages:
       application: ${CF_APP_NAME}
     script: |-
       #!/bin/bash
-      cf create-service cloudantNoSQLDB Shared myMicroservicesCloudant
-      export CF_APP_NAME="${CF_APP}_${BUILD_NUMBER}"
-      cf push "${CF_APP_NAME}" --no-route -i 1
-  - name: Active Rollout
+      if ! cf app $CF_APP; then  
+        cf push $CF_APP
+      else
+        OLD_CF_APP=${CF_APP}-OLD-$(date +"%s")
+        rollback() {
+          set +e  
+          if cf app $OLD_CF_APP; then
+            cf logs $CF_APP --recent
+            cf delete $CF_APP -f
+            cf rename $OLD_CF_APP $CF_APP
+          fi
+          exit 1
+        }
+        set -e
+        trap rollback ERR
+        cf rename $CF_APP $OLD_CF_APP
+        cf push $CF_APP
+        cf delete $OLD_CF_APP -f
+      fi
+  - name: Stop App
     type: deployer
-    extension_id: ibm.devops.services.pipeline.devops.ad_start
     target:
       region_id: ${PROD_REGION_ID}
       organization: ${PROD_ORG_NAME}
       space: ${PROD_SPACE_NAME}
       application: ${CF_APP_NAME}
-    RAMPDOWN_DURATION: 1m
-    RAMPUP_DURATION: 2m
-    COMMAND: |-
+    script: |-
       #!/bin/bash
-      source ${EXT_DIR}/git_util.sh
-      git_retry clone https://github.com/Osthanes/update_service.git activedeploy
-      activedeploy/activedeploy_step_1.sh
-  - name: Active Cleanup
-    type: deployer
-    extension_id: ibm.devops.services.pipeline.devops.ad_finish
-    target:
-      region_id: ${PROD_REGION_ID}
-      organization: ${PROD_ORG_NAME}
-      space: ${PROD_SPACE_NAME}
-      application: ${CF_APP_NAME}
-    COMMAND: |-
-      #!/bin/bash
-      source ${EXT_DIR}/git_util.sh
-      git_retry clone https://github.com/Osthanes/update_service.git activedeploy
-      activedeploy/activedeploy_step_2.sh
       cf stop "${CF_APP_NAME}" ### FOR LOAD TEST USERS (limited quotas)
