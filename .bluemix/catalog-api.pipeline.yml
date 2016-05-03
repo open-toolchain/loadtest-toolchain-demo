@@ -177,4 +177,4 @@ stages:
       application: ${CF_APP_NAME}
     script: |-
       #!/bin/bash
-      cf stop "${CF_APP_NAME}" ### FOR LOAD TEST USERS (limited quotas)
+      cf stop "${CF_APP}" ### FOR LOAD TEST USERS (limited quotas)
