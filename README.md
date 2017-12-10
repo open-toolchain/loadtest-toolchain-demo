@@ -5,11 +5,11 @@ Get started with this sample, which is an online store that consists of three mi
 *** No timeline or DRA dependencies ***
 *** This version stops all the deployed apps ***
 
-###To get started, click this button:
+### To get started, click this button:
 [![Deploy To Bluemix](https://console.bluemix.net/devops/graphics/create_toolchain_button.png)](https://console.bluemix.net/devops/setup/deploy/?repository=https%3A//github.com/open-toolchain/loadtest-toolchain-demo)
 
 ---
-###Learn more
+### Learn more
 
 * [Cloud-native toolchain for microservices](https://www.ibm.com/devops/method/toolchains/microservices_toolchain) on the IBM Bluemix Garage Method site
 * [Scenario: Getting started with microservices](https://w3-connections.ibm.com/wikis/home?lang=en-us#!/wiki/W4e7425c664ea_4859_93fb_660b3ab8388b/page/February%20Scenarios%20%28InterConnect%20DEMO%29) on the Connections wiki
